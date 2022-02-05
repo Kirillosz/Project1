@@ -3,6 +3,7 @@
 #include <ctime>
 #include <windows.h>
 using namespace std;
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 static vector<string> Riders()
 {
 	vector<string> Riders;
@@ -27,42 +28,62 @@ void Display()
 }
 void Competition(int choice)
 {
-	int Race[7];
-	for (int i = 0; i < 7; ++i)
+	const int num_el = 7;
+	int Race[num_el];
+	string FinalPositions[num_el];
+	int SetFinals = 0;
+	for (int i = 0; i < num_el; ++i)
 	{
 		Race[i] = 3000;
 	}
-	while (Race[0] > 1 && Race[1] > 1 && Race[2] > 1 && Race[3] > 1 &&
-		Race[4] > 1 && Race[5] > 1 && Race[6] > 1)
+	while (Race[0] > 1 || Race[1] > 1 || Race[2] > 1 || Race[3] > 1 &&
+		Race[4] > 1 || Race[5] > 1 || Race[6] > 1)
 	{
 		srand(static_cast<unsigned int>(time(0)));
-		for (int i = 0; i < 7; ++i)
+		for (int i = 0; i <= num_el; ++i)
 		{
 			if (Race[i] > 500)
 			{
-				cout << "Running..." << endl;
+				cout << "*-" << endl;
 				Race[i] -= rand() % 150;
+				system("cls");
+				cout << "_*" << endl;
+				system("cls");
 			}
 			if (Race[i] < 500 && Race[i] > 1)
 			{
-				cout << "Running..." << endl;
+				cout << "*-" << endl;
 				Race[i] -= rand() % Race[i];
+				system("cls");
+				cout << "_*" << endl;
+				system("cls");
 			}
-			if (Race[i] <= 1 && i == choice - 1)
+			if (Race[i] == 1)
 			{
-				cout << "Your horse already Win! Congrats! Ridername: ";
-				cout << Riders()[i];
-				break;
-			}
-			else if (Race[i] <= 1 && i != choice - 1)
-			{
-				cout << "Sorry your horse lose! The winner Ridername: ";
-				cout << Riders()[i];
-				break;
+				FinalPositions[SetFinals] = Riders()[i];
+				SetFinals += +1;
+				Race[i] = 0;
 			}
 		}
 	}
-	
+	for (int i = 0; i < num_el; ++i)
+	{
+		if (FinalPositions[i] == Riders()[choice-1])
+		{
+			SetConsoleTextAttribute(hConsole, 15);
+		}
+		else
+		SetConsoleTextAttribute(hConsole, 7);
+		cout << i + 1 << ". " << FinalPositions[i] << endl;
+	}
+	if (FinalPositions[0] == Riders()[choice-1])
+	{
+		cout << "\nCongratulations, your horse win!" << endl;
+	}
+	else
+	{
+		cout << "\nSorry, but your horse lose." << endl;
+	}
 
 }
 string choose(int choice)
