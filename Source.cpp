@@ -65,7 +65,7 @@ void Competition()
 			if (Race[i] > 500)
 			{
 				cout << "*-" << endl;
-				Race[i] -= rand() % 150;
+				Race[i] -= rand() % 150 + 5;
 				system("cls");
 				cout << "_*" << endl;
 				system("cls");
