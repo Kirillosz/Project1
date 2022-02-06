@@ -4,6 +4,8 @@
 #include <windows.h>
 using namespace std;
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+double Money = 50;
+double* Cash = &Money;
 static vector<string> Riders()
 {
 	vector<string> Riders;
@@ -25,9 +27,27 @@ void Display()
 		cout << j+1 << ". " << Riders()[j] << "\n";
 		++j;
 	}
+	system("pause");
 }
-void Competition(int choice)
+void Deposit(double* Cash)
 {
+	if (*Cash > 0)
+	{
+		cout << "\nYou have: " << *Cash << "$" << endl;
+		system("pause");
+	}
+	else
+		cout << "\nYour balance was: " << *Cash << "$, you can't make bet!" << endl;
+
+}
+void Competition()
+{
+	Display();
+	cout << "\nWhich rider are you wanna make a deposit?: ";
+	int choice;
+	cin >> choice;
+	"\nOkay, the riders has to start!\n";
+	system("pause");
 	const int num_el = 7;
 	int Race[num_el];
 	string FinalPositions[num_el];
@@ -79,10 +99,14 @@ void Competition(int choice)
 	if (FinalPositions[0] == Riders()[choice-1])
 	{
 		cout << "\nCongratulations, your horse win!" << endl;
+		*Cash = *Cash + (*Cash / 2);
+		Deposit(Cash);
 	}
 	else
 	{
 		cout << "\nSorry, but your horse lose." << endl;
+		*Cash = * Cash / 2;
+		Deposit(Cash);
 	}
 
 }
@@ -92,15 +116,25 @@ string choose(int choice)
 }
 int main()
 {
-	Display();
-	cout << "\nWhich rider are you wanna make a deposit?" << endl;
-	int choice;
-	cin >> choice;
-	cout << "\nYou are bet for: ";
-	cout << choose(choice);
-	cout << "\nOkay, the riders has to start!\n";
-	system("pause");
-	Competition(choice);
-
+	int menu = 0;
+	while (menu != 4)
+	{
+		system("cls");
+		cout << "Welcome to the sport bet-totalizator! Choose:\n " << endl;
+		cout << "1. Check my cash account\n " << endl;
+		cout << "2. Show the start positions\n " << endl;
+		cout << "3. Make a bet and start the Game!\n " << endl;
+		cout << "4. For exit\n" << endl;
+		cin >> menu;
+		switch (menu)
+		{
+		case 1: system("cls"); Deposit(Cash); break;
+		case 2: system("cls"); Display(); break;
+		case 3: system("cls"); Competition(); break;
+		case 4: break;
+		default:
+			break;
+		}
+	}
 	return 0;
 }
