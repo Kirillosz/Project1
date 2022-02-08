@@ -4,7 +4,7 @@
 #include <windows.h>
 using namespace std;
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-double Money = 50;
+double Money = 5;
 double* Cash = &Money;
 static vector<string> Riders()
 {
@@ -42,71 +42,79 @@ void Deposit(double* Cash)
 }
 void Competition()
 {
-	Display();
-	cout << "\nWhich rider are you wanna make a deposit?: ";
-	int choice;
-	cin >> choice;
-	"\nOkay, the riders has to start!\n";
-	system("pause");
-	const int num_el = 7;
-	int Race[num_el];
-	string FinalPositions[num_el];
-	int SetFinals = 0;
-	for (int i = 0; i < num_el; ++i)
+	if (*Cash > 1)
 	{
-		Race[i] = 3000;
-	}
-	while (Race[0] > 1 || Race[1] > 1 || Race[2] > 1 || Race[3] > 1 &&
-		Race[4] > 1 || Race[5] > 1 || Race[6] > 1)
-	{
-		srand(static_cast<unsigned int>(time(0)));
-		for (int i = 0; i <= num_el; ++i)
+		Display();
+		cout << "\nWhich rider are you wanna make a deposit?: ";
+		int choice;
+		cin >> choice;
+		"\nOkay, the riders has to start!\n";
+		system("pause");
+		const int num_el = 7;
+		int Race[num_el];
+		string FinalPositions[num_el];
+		int SetFinals = 0;
+		for (int i = 0; i < num_el; ++i)
 		{
-			if (Race[i] > 500)
+			Race[i] = 3000;
+		}
+		while (Race[0] > 1 || Race[1] > 1 || Race[2] > 1 || Race[3] > 1 &&
+			Race[4] > 1 || Race[5] > 1 || Race[6] > 1)
+		{
+			srand(static_cast<unsigned int>(time(0)));
+			for (int i = 0; i <= num_el; ++i)
 			{
-				cout << "*-" << endl;
-				Race[i] -= rand() % 150 + 5;
-				system("cls");
-				cout << "_*" << endl;
-				system("cls");
-			}
-			if (Race[i] < 500 && Race[i] > 1)
-			{
-				cout << "*-" << endl;
-				Race[i] -= rand() % Race[i];
-				system("cls");
-				cout << "_*" << endl;
-				system("cls");
-			}
-			if (Race[i] == 1)
-			{
-				FinalPositions[SetFinals] = Riders()[i];
-				SetFinals += +1;
-				Race[i] = 0;
+				if (Race[i] > 500)
+				{
+					cout << "*-" << endl;
+					Race[i] -= rand() % 150 + 5;
+					system("cls");
+					cout << "_*" << endl;
+					system("cls");
+				}
+				if (Race[i] < 500 && Race[i] > 1)
+				{
+					cout << "*-" << endl;
+					Race[i] -= rand() % Race[i];
+					system("cls");
+					cout << "_*" << endl;
+					system("cls");
+				}
+				if (Race[i] == 1)
+				{
+					FinalPositions[SetFinals] = Riders()[i];
+					SetFinals += +1;
+					Race[i] = 0;
+				}
 			}
 		}
-	}
-	for (int i = 0; i < num_el; ++i)
-	{
-		if (FinalPositions[i] == Riders()[choice-1])
+		for (int i = 0; i < num_el; ++i)
 		{
-			SetConsoleTextAttribute(hConsole, 15);
+			if (FinalPositions[i] == Riders()[choice - 1])
+			{
+				SetConsoleTextAttribute(hConsole, 15);
+			}
+			else
+				SetConsoleTextAttribute(hConsole, 7);
+			cout << i + 1 << ". " << FinalPositions[i] << endl;
+		}
+		if (FinalPositions[0] == Riders()[choice - 1])
+		{
+			cout << "\nCongratulations, your horse win!" << endl;
+			*Cash = *Cash + (*Cash / 2);
+			Deposit(Cash);
 		}
 		else
-		SetConsoleTextAttribute(hConsole, 7);
-		cout << i + 1 << ". " << FinalPositions[i] << endl;
-	}
-	if (FinalPositions[0] == Riders()[choice-1])
-	{
-		cout << "\nCongratulations, your horse win!" << endl;
-		*Cash = *Cash + (*Cash / 2);
-		Deposit(Cash);
+		{
+			cout << "\nSorry, but your horse lose." << endl;
+			*Cash = *Cash / 2;
+			Deposit(Cash);
+		}
 	}
 	else
 	{
-		cout << "\nSorry, but your horse lose." << endl;
-		*Cash = * Cash / 2;
-		Deposit(Cash);
+		cout << "Your balance was under 1$, you need much money on your deposite!\n" << endl;
+		system("pause");
 	}
 
 }
