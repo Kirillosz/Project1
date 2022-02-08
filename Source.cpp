@@ -27,7 +27,6 @@ void Display()
 		cout << j+1 << ". " << Riders()[j] << "\n";
 		++j;
 	}
-	system("pause");
 }
 void Deposit(double* Cash)
 {
@@ -48,8 +47,6 @@ void Competition()
 		cout << "\nWhich rider are you wanna make a deposit?: ";
 		int choice;
 		cin >> choice;
-		"\nOkay, the riders has to start!\n";
-		system("pause");
 		const int num_el = 7;
 		int Race[num_el];
 		string FinalPositions[num_el];
@@ -66,7 +63,7 @@ void Competition()
 			{
 				if (Race[i] > 500)
 				{
-					cout << "*-" << endl;
+					cout << "*_" << endl;
 					Race[i] -= rand() % 150 + 5;
 					system("cls");
 					cout << "_*" << endl;
@@ -74,7 +71,7 @@ void Competition()
 				}
 				if (Race[i] < 500 && Race[i] > 1)
 				{
-					cout << "*-" << endl;
+					cout << "*_" << endl;
 					Race[i] -= rand() % Race[i];
 					system("cls");
 					cout << "_*" << endl;
@@ -136,7 +133,7 @@ int main()
 		cin >> menu;
 		switch (menu)
 		{
-		case 1: system("cls"); Deposit(Cash); break;
+		case 1: system("cls"); Deposit(Cash); system("pause"); break;
 		case 2: system("cls"); Display(); break;
 		case 3: system("cls"); Competition(); break;
 		case 4: break;
